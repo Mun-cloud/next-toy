@@ -1,4 +1,9 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# AI댓글 요약 서비스가 있는 커뮤니티
+
+### 주요기능
+커뮤니티에 글을 작성하면 AI가 요약을 해서 댓글을 달아준다.
+###
+
 
 ## Getting Started
 
