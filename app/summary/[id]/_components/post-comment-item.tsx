@@ -40,9 +40,9 @@ const PostCommentItem = ({ comment, isOwner }: PostCommentItemProps) => {
       {isEdit ? (
         <EditCommentForm comment={comment} onEditToggle={onEditToggle} />
       ) : (
-        <div className="flex justify-between items-center px-4 relative py-1 min-h-[55px]">
+        <div className="flex justify-between items-center px-4 relative py-2 min-h-[55px]">
           <div className="flex flex-col gap-px break-all">
-            <span>{comment.content}</span>
+            <p className="whitespace-pre-wrap">{comment.content}</p>
             <span className="text-[12px] text-secondary/70">
               {comment.author.name} - {dateFormatter(comment.createdAt)}
             </span>

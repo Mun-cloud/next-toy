@@ -23,7 +23,7 @@ const PostComments = async ({
   const comments = await getCachedComment(postId);
 
   return (
-    <div className="divide-y border-t overflow-y-auto">
+    <div className="divide-y border-t pb-12">
       {comments.map((comment) => (
         <Fragment key={`comment-${comment.id}`}>
           <PostCommentItem

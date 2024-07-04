@@ -23,7 +23,7 @@ const SummaryDetailPage = async ({ params }: { params: { id: string } }) => {
     <>
       <PageHeader href="/summary" title={article.title} />
       <div className="overflow-y-auto h-full">
-        <div className="flex flex-col pt-4 pb-20 px-5 gap-5 min-h-[calc(100vh-80px-100px)]">
+        <div className="flex flex-col pt-4 pb-20 px-5 gap-5 min-h-[calc(100vh-80px-100px)] relative">
           <div className="">
             {dateFormatter(article.createdAt, { dateStyle: "full" })}
           </div>
