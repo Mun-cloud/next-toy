@@ -5,6 +5,7 @@ import AddCommentForm from "./_components/add-comment-form";
 import PostComments from "./_components/post-comments";
 import { dateFormatter } from "@/lib/utils";
 import { getSession } from "@/lib/session";
+import SummaryWithGemini from "./_components/summary-with-gemini";
 
 const SummaryDetailPage = async ({ params }: { params: { id: string } }) => {
   const id = Number(params.id);
@@ -28,6 +29,7 @@ const SummaryDetailPage = async ({ params }: { params: { id: string } }) => {
             {dateFormatter(article.createdAt, { dateStyle: "full" })}
           </div>
           <div className="leading-relaxed break-keep">{article.content}</div>
+          <SummaryWithGemini postId={id} />
         </div>
         <div className="border-t min-h-[100px]">
           <AddCommentForm />

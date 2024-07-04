@@ -18,7 +18,7 @@ const PostItemMoreBtn = ({ isOwner, id }: { isOwner: boolean; id: number }) => {
           e.stopPropagation();
         }}
       >
-        <EllipsisVerticalIcon className="size-[25px] hover:bg-secondary rounded-full hover:text-primary" />
+        <EllipsisVerticalIcon className="size-[25px] hover:bg-secondary rounded-full hover:text-primary transition-colors" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {isOwner && (
