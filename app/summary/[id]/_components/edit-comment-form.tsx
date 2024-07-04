@@ -17,7 +17,7 @@ interface PostCommentEditFormProps {
   onEditToggle: () => void;
 }
 
-const PostCommentEditForm = ({
+const EditCommentForm = ({
   comment,
   onEditToggle,
 }: PostCommentEditFormProps) => {
@@ -55,4 +55,4 @@ const PostCommentEditForm = ({
   );
 };
 
-export default PostCommentEditForm;
+export default EditCommentForm;

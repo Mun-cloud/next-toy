@@ -25,7 +25,7 @@ const PostsList = async () => {
   const posts = await getPosts();
   const session = await getSession();
   return (
-    <div>
+    <div className="overflow-y-auto h-[calc(100vh-60px-60px)]">
       {posts.map((post) => (
         <Link
           className="border-b py-3 px-5 flex justify-between items-center"

@@ -12,7 +12,7 @@ const SummaryPage = async () => {
   const session = await getSession();
 
   return (
-    <div className="flex flex-col min-h-[100vh] relative">
+    <div>
       <div className="h-[60px] border-b flex items-center justify-between px-8">
         <div className="text-[22px] font-bold">Summary</div>
         <AuthBtns isLogin={!!session.id} />
@@ -20,12 +20,14 @@ const SummaryPage = async () => {
       <Suspense fallback={<PostsLoading />}>
         <PostsList />
       </Suspense>
-      <Link
-        className="fixed right-5 bottom-20 size-8 rounded-full bg-white text-primary flex items-center justify-center z-10"
-        href="/summary/add"
-      >
-        <PlusIcon />
-      </Link>
+      <div className="flex justify-end pr-7">
+        <Link
+          className="fixed bottom-20 size-8 rounded-full bg-white text-primary flex items-center justify-center z-10"
+          href="/summary/add"
+        >
+          <PlusIcon />
+        </Link>
+      </div>
     </div>
   );
 };

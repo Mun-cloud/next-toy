@@ -4,8 +4,9 @@ import { Prisma } from "@prisma/client";
 import CommentItemMoreBtn from "./comment-item-more-btn";
 import { dateFormatter } from "@/lib/utils";
 import { useState } from "react";
-import PostCommentEditForm from "./post-comment-edit-form";
+
 import AddCocomentForm from "./add-cocoment-form";
+import EditCommentForm from "./edit-comment-form";
 
 type CommentType = Prisma.CommentGetPayload<{
   include: {
@@ -37,9 +38,9 @@ const PostCommentItem = ({ comment, isOwner }: PostCommentItemProps) => {
   return (
     <>
       {isEdit ? (
-        <PostCommentEditForm comment={comment} onEditToggle={onEditToggle} />
+        <EditCommentForm comment={comment} onEditToggle={onEditToggle} />
       ) : (
-        <div className="flex justify-between items-center px-4 relative h-[55px]">
+        <div className="flex justify-between items-center px-4 relative py-1 min-h-[55px]">
           <div className="flex flex-col gap-px break-all">
             <span>{comment.content}</span>
             <span className="text-[12px] text-secondary/70">

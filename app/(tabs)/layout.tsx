@@ -3,7 +3,7 @@ import Tabs from "./_components/Tabs";
 const TabsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      {children}
+      <div className="">{children}</div>
       <Tabs />
     </>
   );

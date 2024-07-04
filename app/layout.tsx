@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={notoSans.className}>
-        <div className="mx-auto max-w-lg w-full min-h-screen border rounded-xl bg-primary text-secondary border-border">
+        <div className="mx-auto max-w-lg w-full h-screen border rounded-xl bg-primary text-secondary border-border relative overflow-y-hidden">
           {children}
         </div>
       </body>
