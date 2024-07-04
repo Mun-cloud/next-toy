@@ -5,8 +5,21 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
+import { deleteComment } from "../actions";
 
-const CommentItemMoreBtn = ({ onClick }: { onClick: () => void }) => {
+interface CommentItemMoreBtnProps {
+  onAddCocommentClick: () => void;
+  onEditToggle: () => void;
+  isOwner: boolean;
+  commentId: number;
+}
+
+const CommentItemMoreBtn = ({
+  onAddCocommentClick,
+  onEditToggle,
+  isOwner,
+  commentId,
+}: CommentItemMoreBtnProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -14,10 +27,31 @@ const CommentItemMoreBtn = ({ onClick }: { onClick: () => void }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <button type="button" onClick={onClick}>
+          <button type="button" onClick={onAddCocommentClick}>
             add cocomment
           </button>
         </DropdownMenuItem>
+
+        {isOwner && (
+          <>
+            <DropdownMenuItem>
+              <button type="button" onClick={onEditToggle}>
+                edit comment
+              </button>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <form
+                action={async (formData) => {
+                  const result = await deleteComment(formData);
+                  console.log(result);
+                }}
+              >
+                <input type="hidden" name="commentId" value={commentId} />
+                <button type="submit">delete comment</button>
+              </form>
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

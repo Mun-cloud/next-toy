@@ -13,18 +13,28 @@ const getCachedComment = nextCache(
   }
 );
 
-const PostComments = async ({ postId }: { postId: number }) => {
+const PostComments = async ({
+  postId,
+  userId,
+}: {
+  postId: number;
+  userId: number;
+}) => {
   const comments = await getCachedComment(postId);
 
   return (
     <div className="divide-y border-t overflow-y-auto">
       {comments.map((comment) => (
         <Fragment key={`comment-${comment.id}`}>
-          <PostCommentItem comment={comment} />
+          <PostCommentItem
+            comment={comment}
+            isOwner={comment.author.id === userId}
+          />
           {comment.children.length > 0 &&
             comment.children.map((cocomment) => (
               <CocommentItem
                 cocomment={cocomment}
+                isOwner={comment.author.id === userId}
                 key={`cocomment-${cocomment.id}`}
               />
             ))}

@@ -97,3 +97,45 @@ export const addCocomment = async (formData: FormData) => {
     return result.error.flatten().fieldErrors;
   }
 };
+
+export const deleteComment = async (formData: FormData) => {
+  const id = Number(formData.get("commentId"));
+
+  const result = await db.comment.delete({
+    where: {
+      id,
+    },
+    select: { id: true },
+  });
+
+  revalidateTag("comments");
+  return result;
+};
+
+const commentEditSchema = z.object({
+  id: z.coerce.number(),
+  content: z.string().min(1).max(1000),
+});
+
+export const editComment = async (_: any, formData: FormData) => {
+  const data = {
+    id: formData.get("id"),
+    content: formData.get("content"),
+  };
+  const result = commentEditSchema.safeParse(data);
+
+  if (result.success) {
+    await db.comment.update({
+      where: {
+        id: result.data.id,
+      },
+      data: {
+        content: result.data.content,
+      },
+    });
+
+    revalidateTag("comments");
+  } else {
+    return result.error.flatten().fieldErrors;
+  }
+};
