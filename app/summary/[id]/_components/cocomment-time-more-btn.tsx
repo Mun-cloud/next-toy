@@ -18,7 +18,7 @@ const CocommentTimeMoreBtn = ({
 }: CocommentTimeMoreBtnProps) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="h-fit my-auto">
         <EllipsisVerticalIcon className="size-[25px] hover:bg-secondary rounded-full hover:text-primary" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -30,7 +30,7 @@ const CocommentTimeMoreBtn = ({
 
         <DropdownMenuItem>
           <form action={deleteCocomment}>
-            <button value={cocommentId} name="cocommentId" onClick={editToggle}>
+            <button value={cocommentId} name="cocommentId">
               delete cocomment
             </button>
           </form>
