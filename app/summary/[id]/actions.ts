@@ -139,3 +139,17 @@ export const editComment = async (_: any, formData: FormData) => {
     return result.error.flatten().fieldErrors;
   }
 };
+
+export const deleteCocomment = async (formData: FormData) => {
+  const id = Number(formData.get("cocommentId"));
+
+  const result = await db.coComment.delete({
+    where: {
+      id,
+    },
+    select: { id: true },
+  });
+
+  revalidateTag("comments");
+  return result;
+};

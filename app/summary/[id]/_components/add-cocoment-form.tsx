@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { addCocomment } from "../actions";
 
 interface AddCocomentFormProps {
@@ -7,13 +7,26 @@ interface AddCocomentFormProps {
 }
 
 const AddCocomentForm = ({ onClose, commentId }: AddCocomentFormProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useLayoutEffect(() => {
+    const ref = boxRef.current;
+    inputRef.current?.focus();
+    if (!ref) return;
+
+    ref.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "nearest",
+    });
+  }, []);
 
   return (
     <div
-      className="flex items-center justify-between gap-4 px-4 h-[55px]"
-      ref={ref}
+      className="flex items-center justify-between gap-4 px-4 min-h-[55px]"
+      ref={boxRef}
     >
       <div>답글 추가</div>
       <form
@@ -30,6 +43,7 @@ const AddCocomentForm = ({ onClose, commentId }: AddCocomentFormProps) => {
           className="border rounded-md px-2 py-1 w-44 text-primary grow"
           name="content"
           required
+          ref={inputRef}
         />
         <div className="flex gap-1">
           <button
