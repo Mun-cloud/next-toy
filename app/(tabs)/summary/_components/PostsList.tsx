@@ -2,6 +2,7 @@ import db from "@/lib/db";
 import Link from "next/link";
 import PostItemMoreBtn from "./PostItemMoreBtn";
 import { getSession } from "@/lib/session";
+import { unstable_cache as nextCache } from "next/cache";
 
 const getPosts = async () => {
   return await db.post.findMany({
@@ -21,8 +22,10 @@ const getPosts = async () => {
   });
 };
 
+const getCachedPosts = nextCache(getPosts, ["posts"], { tags: ["posts"] });
+
 const PostsList = async () => {
-  const posts = await getPosts();
+  const posts = await getCachedPosts();
   const session = await getSession();
   return (
     <div className="overflow-y-auto h-[calc(100vh-60px-60px)]">
