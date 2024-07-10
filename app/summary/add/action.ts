@@ -18,7 +18,6 @@ export async function uploadArticle(_: any, formdata: FormData) {
     published: formdata.get("published") ? true : false,
   };
   const result = schema.safeParse(data);
-
   if (result.success) {
     const session = await getSession();
     if (session.id) {
@@ -35,7 +34,6 @@ export async function uploadArticle(_: any, formdata: FormData) {
           id: true,
         },
       });
-
       redirect(`/summary/${article.id}`);
     }
   } else {
