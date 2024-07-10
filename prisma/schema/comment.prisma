@@ -2,12 +2,12 @@ model Comment {
     id        Int         @id @default(autoincrement())
     content   String
     authorId  Int
-    author    User        @relation(fields: [authorId], references: [id])
     postId    Int
-    post      Post        @relation(fields: [postId], references: [id])
-    children  CoComment[]
     createdAt DateTime    @default(now())
     updatedAt DateTime    @updatedAt
+    children  CoComment[]
+    post      Post        @relation(fields: [postId], references: [id], onDelete: Cascade)
+    author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
     @@index([authorId, postId])
 }
@@ -16,11 +16,11 @@ model CoComment {
     id        Int      @id @default(autoincrement())
     content   String
     authorId  Int
-    author    User     @relation(fields: [authorId], references: [id])
     parentId  Int
-    parent    Comment  @relation(fields: [parentId], references: [id], onDelete: Cascade)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    parent    Comment  @relation(fields: [parentId], references: [id], onDelete: Cascade)
+    author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
     @@index([authorId, parentId])
 }

@@ -1,8 +1,9 @@
 model User {
-    id        Int         @id @default(autoincrement())
-    email     String      @unique
-    name      String?
-    posts     Post[]
-    comments  Comment[]
-    cocoments CoComment[]
+  id           Int            @id @default(autoincrement())
+  email        String         @unique
+  name         String?
+  cocoments    CoComment[]
+  comments     Comment[]
+  posts        Post[]
+  newsBookmark NewsBookmark[]
 }

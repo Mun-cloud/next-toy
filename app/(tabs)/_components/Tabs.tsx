@@ -1,10 +1,16 @@
 "use client";
 
-import { HomeIcon as HomeIconSolid } from "@heroicons/react/24/solid";
-import { HomeIcon as HomeIconOutline } from "@heroicons/react/24/outline";
+import {
+  HomeIcon as HomeIconSolid,
+  UserIcon as UserIconSolid,
+  NewspaperIcon as NewspaperIconSolid,
+} from "@heroicons/react/24/solid";
+import {
+  HomeIcon as HomeIconOutline,
+  UserIcon as UserIconOutline,
+  NewspaperIcon as NewspaperIconOutline,
+} from "@heroicons/react/24/outline";
 import TabsIcon from "./TabsIcon";
-import { UserIcon as UserIconSolid } from "@heroicons/react/20/solid";
-import { UserIcon as UserIconOutline } from "@heroicons/react/24/outline";
 
 const Tabs = () => {
   return (
@@ -15,6 +21,12 @@ const Tabs = () => {
           Off={HomeIconOutline}
           label="홈"
           link="/summary"
+        />
+        <TabsIcon
+          On={NewspaperIconSolid}
+          Off={NewspaperIconOutline}
+          label="뉴스"
+          link="/news"
         />
         <TabsIcon
           On={UserIconSolid}
