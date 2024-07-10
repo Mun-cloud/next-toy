@@ -38,6 +38,14 @@ const ProfilePage = async () => {
         </div>
       </div>
 
+      <div className="pt-12 max-h-[50vh]">
+        <h3 className="text-[20px] pb-1 px-2">Your News Bookmark</h3>
+        <div className="divide-y border-y h-full overflow-y-auto">
+          {newsBookmarks.map((bookmark) => (
+            <NewsBookmarkItem
+              bookmark={bookmark}
+              key={`your-post-${bookmark.id}`}
+            />
           ))}
         </div>
       </div>
