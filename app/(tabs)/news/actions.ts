@@ -74,3 +74,52 @@ export const cachedAiResponse = (
   return actionResponse(newsData, keyword);
 };
 
+export const addBookmark = async (news: NewsItem) => {
+  try {
+    const { originallink, ...newsData } = news;
+    const session = await getSession();
+    await db.newsBookmark.create({
+      data: {
+        ...newsData,
+        userId: session.id!,
+      },
+      select: {
+        id: true,
+      },
+    });
+    revalidatePath("/news");
+  } catch (error) {}
+};
+
+export const getBookmarks = async (userId: number) => {
+  return await db.newsBookmark.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      link: true,
+    },
+  });
+};
+
+export const getCachedBookmark = async () => {
+  const session = await getSession();
+  const cachedData = nextCache(
+    () => getBookmarks(session.id!),
+    ["news-bookmarks"]
+  );
+  return cachedData();
+};
+
+export const deleteBookmark = async (link: string) => {
+  try {
+    const userId = (await getSession()).id!;
+    await db.newsBookmark.delete({
+      where: {
+        link,
+        userId,
+      },
+    });
+    revalidatePath("/news");
+  } catch (error) {}
+};

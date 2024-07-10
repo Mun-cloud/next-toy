@@ -20,9 +20,11 @@ const Input = ({ name, label, errors, ...rest }: InputProps) => {
           />
         </div>
       </label>
-      <div className="text-red-500 text-[12px] pl-[120px] pt-1">
-        {errors?.[0]}
-      </div>
+      {errors && (
+        <div className="text-red-500 text-[12px] pl-[120px] pt-1">
+          {errors[0]}
+        </div>
+      )}
     </div>
   );
 };
