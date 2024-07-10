@@ -2,11 +2,13 @@
 
 import db from "@/lib/db";
 import { getSession } from "@/lib/session";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+
 import { revalidateTag } from "next/cache";
 import { z } from "zod";
+import { GenerateContentRequest } from "@google-cloud/vertexai";
+import { geminiModel, vertexModel, vertexResponseToText } from "@/lib/ai-model";
 
-export const getArticle = async (id: number) => {
+export const getPosts = async (id: number) => {
   return await db.post.findUnique({
     where: {
       id,
@@ -183,12 +185,6 @@ export const editCocomment = async (_: any, formData: FormData) => {
   }
 };
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-
-const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
-});
-
 export async function summaryWithGemini(_: any, formData: FormData) {
   const postId = Number(formData.get("postId"));
 
@@ -199,10 +195,10 @@ export async function summaryWithGemini(_: any, formData: FormData) {
 
   if (post?.content) {
     try {
-      let propt =
+      let prompt =
         "You are an expert at summarizing posts. Summarize what I am sending in simple and easy for everyone to see in Korean. please summarize the input. ";
 
-      const result = await model.generateContent(propt + post.content);
+      const result = await geminiModel.generateContent(prompt + post.content);
       const text = result.response.text();
       const session = await getSession();
       await db.comment.create({
@@ -213,6 +209,41 @@ export async function summaryWithGemini(_: any, formData: FormData) {
         },
       });
       revalidateTag("comments");
+    } catch (error) {
+      console.error(`Error analyzing text: ${error}`);
+    }
+  }
+}
+
+export async function summaryWithVertex(_: any, formData: FormData) {
+  const postId = Number(formData.get("postId"));
+
+  const post = await db.post.findFirst({
+    where: { id: postId },
+    select: { content: true },
+  });
+
+  if (post?.content) {
+    try {
+      const prompt =
+        "You are an expert at summarizing posts. Summarize what I am sending in simple and easy for everyone to see in Korean. please summarize the article :  ";
+
+      const req: GenerateContentRequest = {
+        contents: [{ role: "user", parts: [{ text: prompt + post.content }] }],
+      };
+      const streamingResp = await vertexModel.generateContent(req);
+      if (streamingResp.response.candidates) {
+        const resultText = vertexResponseToText(streamingResp);
+        const session = await getSession();
+        await db.comment.create({
+          data: {
+            postId,
+            content: resultText,
+            authorId: session.id!,
+          },
+        });
+        revalidateTag("comments");
+      }
     } catch (error) {
       console.error(`Error analyzing text: ${error}`);
     }

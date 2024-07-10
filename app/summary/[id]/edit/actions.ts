@@ -1,6 +1,8 @@
 "use server";
 
 import db from "@/lib/db";
+import { redirect } from "next/navigation";
+
 import { z } from "zod";
 
 const schema = z.object({
@@ -12,7 +14,7 @@ const schema = z.object({
   content: z
     .string({ required_error: "please write your post's title" })
     .min(1, "please write your post's title more than 1")
-    .max(1000, "please write your post's title less than 1000"),
+    .max(5000, "please write your post's title less than 1000"),
   published: z.boolean(),
 });
 
@@ -29,7 +31,7 @@ export const editPost = async (_: any, formData: FormData) => {
   if (!result.success) {
     return result.error.flatten().fieldErrors;
   } else {
-    await db.post.update({
+    const post = await db.post.update({
       where: {
         id: result.data.id,
       },
@@ -38,6 +40,10 @@ export const editPost = async (_: any, formData: FormData) => {
         content: result.data.content,
         published: result.data.published,
       },
+      select: {
+        id: true,
+      },
     });
+    redirect(`/summary/${post.id}`);
   }
 };

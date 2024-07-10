@@ -3,7 +3,15 @@
 import { useFormState } from "react-dom";
 import { editPost } from "../actions";
 import Checkbox from "@/app/_components/Checkbox";
+import dynamic from "next/dynamic";
+import { Loader2 } from "lucide-react";
+import { useRef } from "react";
+import { type Editor as ToastEditor } from "@toast-ui/react-editor";
 
+const Editor = dynamic(() => import("@/components/editor"), {
+  ssr: false,
+  loading: () => <Loader2 className="animate-spin" />,
+});
 interface PostEditFormProps {
   post: {
     id: number;
@@ -21,8 +29,15 @@ interface PostEditFormProps {
 
 const PostEditForm = ({ post }: PostEditFormProps) => {
   const [errors, action] = useFormState(editPost, null);
+  const editorRef = useRef<ToastEditor>(null);
   return (
-    <form className="flex flex-col justify-between grow" action={action}>
+    <form
+      className="flex flex-col justify-between grow"
+      action={(formData) => {
+        formData.set("content", editorRef.current?.getInstance().getMarkdown());
+        action(formData);
+      }}
+    >
       <input type="hidden" name="id" defaultValue={post.id} />
       <div className="">
         <div className="flex flex-col gap-8 ">
@@ -41,12 +56,8 @@ const PostEditForm = ({ post }: PostEditFormProps) => {
           </div>
           <div className="flex flex-col gap-2 ">
             <div className="">contents</div>
-            <div className="border rounded-md p-2 h-[20vh] relative">
-              <textarea
-                className="bg-inherit text-[14px] w-full resize-none h-full"
-                defaultValue={post.content!}
-                name="content"
-              />
+            <div className="relative bg-secondary">
+              <Editor editorRef={editorRef} value={post.content} />
               {errors?.content && (
                 <div className="absolute top-full right-0 text-red-500 pt-0.5">
                   {errors.content}
