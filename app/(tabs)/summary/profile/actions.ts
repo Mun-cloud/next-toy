@@ -45,7 +45,6 @@ export const getMyPosts = async (userId: number) => {
 
 export const deletePost = async (formData: FormData) => {
   const id = Number(formData.get("postId"));
-  console.log(id);
   await db.post.delete({
     where: { id },
     select: { id: true },
@@ -56,7 +55,6 @@ export const deletePost = async (formData: FormData) => {
 };
 
 const getBookmarks = async (userId: number) => {
-  console.log("북마크 요청!");
   const bookmarks = await db.newsBookmark.findMany({
     where: { userId },
     select: {

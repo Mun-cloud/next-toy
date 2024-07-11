@@ -40,12 +40,7 @@ const CommentItemMoreBtn = ({
               </button>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <form
-                action={async (formData) => {
-                  const result = await deleteComment(formData);
-                  console.log(result);
-                }}
-              >
+              <form action={async (formData) => await deleteComment(formData)}>
                 <input type="hidden" name="commentId" value={commentId} />
                 <button type="submit">delete comment</button>
               </form>

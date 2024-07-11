@@ -27,3 +27,12 @@ interface NewsResponse {
   /** 개별 검색 결과 */
   items: NewsItem[];
 }
+
+interface ScrapedNews {
+  title: string | null;
+  datetime: string | null;
+  content: string | null;
+  press: string | null;
+  img: string | null;
+  link: string;
+}

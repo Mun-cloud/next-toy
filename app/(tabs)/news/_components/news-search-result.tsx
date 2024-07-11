@@ -24,11 +24,10 @@ const NewsSearchResult = ({ newsList, bookmarks }: NewsSearchResultProps) => {
   return (
     <div className="pb-[60px]">
       {newsList?.items.map((news) => (
-        <button
+        <div
           key={news.link}
-          className="h-20 border-b px-4 py-2"
+          className="h-20 border-b px-4 py-2 cursor-pointer"
           onClick={() => onClick(news.link)}
-          type="button"
         >
           <div className="flex items-center justify-between">
             <div
@@ -60,7 +59,7 @@ const NewsSearchResult = ({ newsList, bookmarks }: NewsSearchResultProps) => {
             className="text-[12px] line-clamp-2 pt-1 [&_b]:text-[tomato]"
             dangerouslySetInnerHTML={{ __html: news.description }}
           />
-        </button>
+        </div>
       ))}
     </div>
   );

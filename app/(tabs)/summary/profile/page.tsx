@@ -3,7 +3,6 @@ import Button from "@/app/_components/Button";
 import ProfilePostItem from "./_components/profile-post-item";
 import { unstable_cache as nextCache } from "next/cache";
 import { getSession } from "@/lib/session";
-import { getCachedBookmark } from "../../news/actions";
 import NewsBookmarkItem from "./_components/news-bookmark-item";
 
 const getCachedMyPost = nextCache(
