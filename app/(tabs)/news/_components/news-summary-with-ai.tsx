@@ -84,8 +84,8 @@ const NewsSummaryWithAi = ({ newsList }: NewsSummaryWithAiProps) => {
 
   const onButtonClick = async () => {
     setIsCrawling(true);
-    const response = await crawling(newsList?.items ?? []);
-    console.log(response);
+    // const response = await crawling(newsList?.items ?? []);
+    // console.log(response);
     setIsCrawling(false);
   };
   return (

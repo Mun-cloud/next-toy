@@ -212,13 +212,16 @@ async function mobileLinkScrape(item: NewsItem): Promise<ScrapedNews | null> {
   }
 }
 
-export const crawling = async (news: NewsItem[]) => {
-  const response = await Promise.all(
-    news.map(async (item) =>
-      item.link.includes("https://m.")
-        ? await mobileLinkScrape(item)
-        : await desktopLinkScrape(item)
-    )
-  );
+export const crawling = async (news: NewsItem) => {
+  const response = news.link.includes("https://m.")
+    ? await mobileLinkScrape(news)
+    : await desktopLinkScrape(news);
+
   return response;
 };
+
+export const crawlingList = async (news: NewsItem[]) => {
+  return await Promise.all(news.map(async (item) => crawling(item)));
+};
+
+export const crawlingCheck = async (news: NewsItem) => {};

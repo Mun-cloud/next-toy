@@ -1,16 +1,18 @@
 import { dateFormatter } from "@/lib/utils";
 import { BookmarkIcon as BookmarkIconSolid } from "@heroicons/react/24/solid";
 import { BookmarkIcon as BookmarkIconOutline } from "@heroicons/react/24/outline";
-import { addBookmark, deleteBookmark } from "../actions";
+import { addBookmark, crawlingCheck, deleteBookmark } from "../actions";
 
 interface NewsSearchResultProps {
   newsList: NewsResponse | null;
   bookmarks: Array<string>;
 }
 const NewsSearchResult = ({ newsList, bookmarks }: NewsSearchResultProps) => {
-  const onClick = (link: string) => {
+  const onClick = async (news: NewsItem) => {
     if (confirm("외부 페이지를 여시겠습니까?")) {
-      window.open(link, "_blank");
+      window.open(news.link, "_blank");
+    } else {
+      crawlingCheck(news);
     }
   };
 
@@ -27,7 +29,7 @@ const NewsSearchResult = ({ newsList, bookmarks }: NewsSearchResultProps) => {
         <div
           key={news.link}
           className="h-20 border-b px-4 py-2 cursor-pointer"
-          onClick={() => onClick(news.link)}
+          onClick={() => onClick(news)}
         >
           <div className="flex items-center justify-between">
             <div

@@ -1,0 +1,43 @@
+model News {
+  id        String        @id @default(cuid())
+  title     String // 뉴스 제목
+  press     String // 언론사
+  createdAt DateTime      @default(now()) // 발행일
+  summary   String? // 뉴스 요약 내용
+  content   String? // 뉴스 상세 내용
+  url       String        @unique // 뉴스 링크(중복 방지)
+  image     String? // 이미지
+  category  String? // 카테고리
+  author    String? // 뉴스 작성자
+  keywords  NewsKeyword[] // 키워드
+  sentiment String? // "positive", "negative", "neutral" 등으로 표현
+  scrap     NewsScrap[]
+
+  @@index([title]) // 빠른 검색을 위한 인덱스 생성
+}
+
+model Keyword {
+  id   String        @id @default(cuid())
+  name String        @unique
+  news NewsKeyword[]
+}
+
+model NewsKeyword {
+  news      News    @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  newsId    String
+  keyword   Keyword @relation(fields: [keywordId], references: [id], onDelete: Cascade)
+  keywordId String
+
+  @@id([newsId, keywordId])
+}
+
+model NewsScrap {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  news      News     @relation(fields: [newsId], references: [id], onDelete: Cascade)
+  newsId    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, newsId]) // 사용자-뉴스 조합의 유일성 보장
+}
